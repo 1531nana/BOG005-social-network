@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -23,26 +24,11 @@ onAuthStateChanged(auth, (user) => {
       // eslint-disable-next-line no-restricted-globals
       history.replaceState({}, '', '/');
     }
-    console.log('está desconectado');
   } else {
     onNavigate('/feed');
-    console.log('está conectado ');
   }
 });
 
-// const logOutUser = () => {
-//   // eslint-disable-next-line no-restricted-globals
-//   if (confirm('¿Estás seguro de cerrar sesión?')) {
-//     signOut(auth)
-//       .then(() => {
-//         console.log('cerró sesión');
-//         window.location.pathname = '/';
-//       })
-//       .catch(() => {});
-//   } else {
-//     onNavigate('/feed');
-//   }
-// };
 const logOutUser = () => signOut(auth);
 
 const createEmail = (email, password, nameUser) => {
@@ -52,19 +38,10 @@ const createEmail = (email, password, nameUser) => {
         displayName: nameUser,
       }).then(() => {
         let user = auth.currentUser.displayName;
+        // eslint-disable-next-line no-unused-vars
         user = nameUser;
         window.location.pathname = '/feed';
-        console.log(user);
       }).catch((error) => error.message);
-      // console.log('createEmail ', result);
-      // updateProfile(auth.currentUser, {
-      //   displayName: nameUser,
-      // }).then(result => console.log('valor recibido ', nameUser));
-      // let user = result.user.displayName;
-      // user = nameUser;
-      // window.location.pathname = '/feed';
-      // // onNavigate('/feed');
-      // console.log(user, 'displayaname ', auth.currentUser.displayName);
     })
     .catch((error) => {
       alert(error.message);
@@ -72,51 +49,9 @@ const createEmail = (email, password, nameUser) => {
     });
 };
 
-// const validateUserAndPass = (email, password) => {
-//   signInWithEmailAndPassword(auth, email, password)
-//     .then((result) => {
-//       const user = result.user;
-//       window.location.pathname = '/feed';
-//       console.log('user validate ', user);
-//     })
-//     .catch((error) => {
-//       const errorMessage = error.message;
-//       alert(errorMessage);
-//       console.log('error en el registro');
-//       onNavigate('/');
-//     });
-// };
 const validateUserAndPass = (email, password) => signInWithEmailAndPassword(auth, email, password);
 const provider = new GoogleAuthProvider();
 const loginWithGoogle = () => signInWithPopup(auth, provider);
-// const loginWithGoogle = () => {
-//   const provider = new GoogleAuthProvider();
-//   provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-//   provider.addScope('profile');
-//   provider.addScope('email');
-
-//   signInWithPopup(auth, provider)
-//     .then((result) => {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//       const credential = GoogleAuthProvider.credentialFromResult(result);
-//       const token = credential.accessToken;
-//       console.log(token);
-//       // The signed-in user info.
-//       const user = result.user;
-//       console.log(user.displayName);
-//       window.location.pathname = '/feed';
-//     }).catch((error) => {
-//     // Handle Errors here.
-//       const errorMessage = error.message;
-//       // The email of the user's account used.
-//       const email = error.customData.email;
-//       // The AuthCredential type that was used.
-//       const credential = GoogleAuthProvider.credentialFromError(error);
-//       alert(errorMessage);
-//       onNavigate('/register');
-//       console.log(email, credential);
-//     });
-// };
 
 export {
   createEmail, validateUserAndPass, loginWithGoogle, logOutUser, auth,

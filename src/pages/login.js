@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 import { validateUserAndPass } from '../auth/authentication.js';
 import { onNavigate } from '../main.js';
 
@@ -31,28 +33,30 @@ export const login = () => {
 `;
   loginContainer.innerHTML = loginTemplate;
 
-  loginContainer.querySelector('#logginButton').addEventListener('click', () => {
-    validateUserAndPass(loginContainer.querySelector('#emailUser').value, loginContainer.querySelector('#passWordUser').value)
-      .then(() => {
-        // const user = result.user;
-        window.location.pathname = '/feed';
-        // console.log('user validate ', user);
-      })
-      .catch((error) => {
-        // const errorMessage = error.message;
-        alert(error.message);
-        // console.log('error en el registro');
-        // onNavigate('/');
-      });
-  });
-  loginContainer.querySelector('#linkRegister').addEventListener('click', () => {
-    onNavigate('/register');
-    window.location.hash = '';
-    if (window.location.hash === '') {
-      // eslint-disable-next-line no-restricted-globals
-      history.replaceState({}, '', '/register');
-    }
-  });
+  loginContainer
+    .querySelector('#logginButton')
+    .addEventListener('click', () => {
+      validateUserAndPass(
+        loginContainer.querySelector('#emailUser').value,
+        loginContainer.querySelector('#passWordUser').value,
+      )
+        .then(() => {
+          window.location.pathname = '/feed';
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+
+  loginContainer
+    .querySelector('#linkRegister')
+    .addEventListener('click', () => {
+      onNavigate('/register');
+      window.location.hash = '';
+      if (window.location.hash === '') {
+        history.replaceState({}, '', '/register');
+      }
+    });
 
   return loginContainer;
 };

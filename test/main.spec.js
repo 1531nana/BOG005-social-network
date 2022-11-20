@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import { onNavigate } from '../src/main.js';
 
-// jest.mock('../src/auth/authentication.js');
 jest.mock('../src/auth/authControllers.js');
 jest.mock('../src/firestore/firestore.js');
 jest.mock('../src/config/configFireBaseImport.js');

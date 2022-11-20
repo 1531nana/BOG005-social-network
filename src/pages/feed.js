@@ -1,3 +1,6 @@
+/* eslint-disable dot-notation */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 import { auth, logOutUser } from '../auth/authentication.js';
 import {
   saveRecipe, onGetRecipes, deletePost, getPost, updatePost, getRecipe, likeMe, dislikeMe,
@@ -53,7 +56,6 @@ export const feed = () => {
       let html = '';
       querySnapshot.forEach((doc) => {
         const post = doc.data();
-        // console.log('id ', post);
         html += `
           <div class= "postView">
           <div id="imageRecipe">
@@ -86,11 +88,8 @@ export const feed = () => {
       btnsDelete.forEach((btn) => {
         btn.addEventListener('click', async (event) => {
           const post = await getPost(event.target.dataset.id);
-          console.log(post);
           const postData = post.data();
-          console.log('postdata ', postData);
           if (postData.idUser === auth.currentUser.uid) {
-          // eslint-disable-next-line no-restricted-globals
             if (confirm('¿Estás seguro de eliminar la publicación?')) {
               deletePost(event.target.dataset.id);
             }
@@ -106,7 +105,6 @@ export const feed = () => {
           const post = await getPost(event.target.dataset.id);
           const postData = post.data();
           if (postData.idUser === auth.currentUser.uid) {
-          // eslint-disable-next-line dot-notation
             publishRecipe['recipeName'].value = postData.title;
             publishRecipe['recipe-description'].value = postData.description;
 
@@ -129,11 +127,9 @@ export const feed = () => {
             (idPost) => {
               if (e.target.dataset.id === idPost.id) {
                 if (!idPost.data().like.includes(auth.currentUser.uid)) {
-                  console.log('idPost.id ', idPost.id);
                   likeMe(idPost.id, auth.currentUser.uid);
                 } else {
                   dislikeMe(idPost.id, auth.currentUser.uid);
-                  console.log('se quitó el like ', idPost.data().like);
                 }
               }
             },
@@ -146,17 +142,12 @@ export const feed = () => {
 
   publishRecipe.addEventListener('submit', (e) => {
     e.preventDefault();
-    // eslint-disable-next-line dot-notation
     const nameRecipe = publishRecipe['recipeName'];
     const descriptionRecipe = publishRecipe['recipe-description'];
     const date = new Date();
-    // const author = auth.currentUser.displayName;
-    // const idUser = auth.currentUser.uid;
-    // console.log(author, idUser);
     if (nameRecipe.value === '' || descriptionRecipe.value === '') {
       alert('Todos los campos son obligatorios');
     } else {
-      // eslint-disable-next-line no-lonely-if
       if (!editStatus) {
         const author = auth.currentUser.displayName;
         const idUser = auth.currentUser.uid;
@@ -174,7 +165,6 @@ export const feed = () => {
   });
 
   logOutPage.addEventListener('click', () => {
-    // eslint-disable-next-line no-restricted-globals
     if (confirm('¿Estás seguro de cerrar sesión?')) {
       logOutUser()
         .then(() => { window.location.pathname = '/'; })

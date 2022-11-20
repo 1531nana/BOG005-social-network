@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { createEmail, loginWithGoogle } from '../auth/authentication.js';
 
 const register = () => {
@@ -38,12 +39,11 @@ const register = () => {
   registerContainer
     .querySelector('#bottonRegister')
     .addEventListener('click', () => {
-      console.log('nameUser enviado ', document.getElementById('registerNameUser').value);
       createEmail(
         document.getElementById('registerEmailUser').value,
         document.getElementById('registerPassWordUser').value,
         document.getElementById('registerNameUser').value,
-      ); /* Comando de Firebase para Autenticación */
+      );
     });
 
   // REGISTRARSE CON GOOGLE //
